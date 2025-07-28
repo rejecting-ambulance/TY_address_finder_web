@@ -1,6 +1,6 @@
 # Dockerfile
-# 使用官方的 Python 基礎映像
-FROM python:3.9-slim-buster
+# 使用官方的 Python 基礎映像，更新為 Debian Bookworm
+FROM python:3.9-slim-bookworm
 
 # 設置工作目錄
 WORKDIR /app
@@ -41,7 +41,6 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     lsb-release \
     xdg-utils \
-    # 針對一些低內存環境可能需要
     xvfb \
     # 清理 apt 快取以減少映像大小
     && rm -rf /var/lib/apt/lists/*
