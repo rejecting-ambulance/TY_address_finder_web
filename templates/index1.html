@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>地址查詢 API 測試</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; max-width: 600px; margin: auto; }
+    input, button { padding: 0.5em; margin-top: 1em; width: 100%; font-size: 1em; }
+    button { cursor: pointer; }
+    pre { background: #f8f8f8; padding: 1em; white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <h1>地址查詢 API 測試</h1>
+
+  <label for="address">請輸入地址：</label>
+  <input type="text" id="address" placeholder="例如：桃園市中壢區環北路390號" />
+  <button onclick="query()">查詢</button>
+
+  <h2>回應結果：</h2>
+  <pre id="result">（尚未查詢）</pre>
+
+  <script>
+    async function query() {
+      const address = document.getElementById("address").value.trim();
+      const resultEl = document.getElementById("result");
+
+      if (!address) {
+        resultEl.textContent = "請輸入地址。";
+        return;
+      }
+
+      resultEl.textContent = "查詢中...";
+
+      try {
+        const res = await fetch("/query", {   // ✅ 改用相對路徑
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ address })
+        });
+
+        if (!res.ok) {   // ✅ 加上 HTTP 錯誤處理，避免 JSON parse error
+          resultEl.textContent = `HTTP ${res.status} 錯誤`;
+          return;
+        }
+
+        const json = await res.json();
+        resultEl.textContent = JSON.stringify(json, null, 2);
+      } catch (err) {
+        resultEl.textContent = "發生錯誤：" + err.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
