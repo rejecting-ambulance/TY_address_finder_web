@@ -48,8 +48,8 @@ RUN apt-get update && apt-get install -y \
 # 下載並安裝 Google Chrome
 # IMPORTANT: 請檢查 https://googlechromelabs.github.io/chrome-for-testing/ 以獲取最新版本
 # 確保 CHROME_VERSION 和 CHROMEDRIVER_VERSION 匹配
-ENV CHROME_VERSION=126.0.6478.182
-ENV CHROMEDRIVER_VERSION=126.0.6478.182
+ENV CHROME_VERSION=138.0.7204.168
+ENV CHROMEDRIVER_VERSION=138.0.7204.168
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
@@ -57,9 +57,8 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
     && apt-get install -y google-chrome-stable
 
 # 下載並安裝 ChromeDriver
-RUN CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
-    grep -oP "\"${CHROMEDRIVER_VERSION}\": {\"chromedriver\": \\[\\{\"platform\": \"linux64\", \"url\": \"\\K[^\"]+") \
-    && wget -q "${CHROMEDRIVER_URL}" -O chromedriver.zip \
+# 直接使用提供的 ChromeDriver 下載 URL
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.168/linux64/chromedriver-linux64.zip" -O chromedriver.zip \
     && unzip chromedriver.zip \
     && mv chromedriver-linux64/chromedriver /usr/bin/chromedriver \
     && rm -rf chromedriver.zip chromedriver-linux64 \
