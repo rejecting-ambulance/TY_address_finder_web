@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-import chromedriver_autoinstaller # <-- 暫時加回
+#import chromedriver_autoinstaller # <-- 暫時加回
 
 # 設定日誌級別，Cloud Run 會自動收集 stdout/stderr
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,7 +26,7 @@ def setup_chrome_driver():
     配置為無頭模式，並針對伺服器環境進行最佳化。
     """
     # ✅ 自動安裝匹配的 ChromeDriver (僅供本地測試方便，部署時在 Dockerfile 處理)
-    chromedriver_autoinstaller.install() # <-- 暫時加回
+    #chromedriver_autoinstaller.install() # <-- 暫時加回
     global _driver, _wait
     if _driver is None:
         logging.info("Initializing Chrome WebDriver...")
